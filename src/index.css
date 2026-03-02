@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+  a { text-decoration: none; color: inherit; }
+  img { display: block; max-width: 100%; }
+}
+
+@layer components {
+  /* ── Animated entrance helpers ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .anim-fade-up {
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+  }
+  .anim-slide-in {
+    opacity: 0;
+    animation: slideIn 1s ease forwards;
+  }
+  .anim-delay-1 { animation-delay: 0.10s; }
+  .anim-delay-2 { animation-delay: 0.22s; }
+  .anim-delay-3 { animation-delay: 0.34s; }
+  .anim-delay-4 { animation-delay: 0.46s; }
+  .anim-delay-5 { animation-delay: 0.58s; }
+  .anim-delay-6 { animation-delay: 0.70s; }
+  .anim-delay-car { animation-delay: 0.30s; }
+
+  /* ── Section fade on scroll ── */
+  .section-hidden {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.85s ease, transform 0.85s ease;
+  }
+  .section-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Booking widget fields ── */
+  .bfield select,
+  .bfield input[type='date'] {
+    @apply border-0 outline-none bg-transparent text-[15px] font-medium text-gray-900 w-full cursor-pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  /* ── FAQ accordion ── */
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding-bottom 0.3s ease;
+  }
+  .faq-answer.open {
+    max-height: 300px;
+    padding-bottom: 20px;
+  }
+
+  /* ── Newsletter form ── */
+  .newsletter-input {
+    @apply flex-1 bg-transparent border-0 outline-none text-sm text-white px-4 py-3;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .newsletter-input::placeholder { color: rgba(255,255,255,0.35); }
+}
+
+@layer utilities {
+  .font-heading { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+  /* ── Background Gradients ── */
+  .bg-grad-hero { background: linear-gradient(108deg, #0e0e0e 0%, #161616 38%, #1f1a12 65%, #2d2010 100%); }
+  .bg-grad-hero-overlay { background: linear-gradient(to right, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.85) 45%, rgba(10,10,10,0.3) 100%); }
+  .bg-grad-red { background: linear-gradient(105deg, #E31B23 0%, #c8151c 100%); }
+  .bg-grad-dark-overlay { background: linear-gradient(to top, rgba(0,0,0,0.62) 0%, transparent 55%); }
+
+  /* Drawer scrollbar hide */
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+}
