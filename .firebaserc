@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "benson-portfolio-redux"
+  },
+  "targets": {
+    "benson-portfolio-redux": {
+      "hosting": {
+        "jelanimotors": [
+          "jelanimotors"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
