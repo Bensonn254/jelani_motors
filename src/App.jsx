@@ -70,8 +70,6 @@ export default function App() {
     return <SplashScreen onComplete={() => setSplashDone(true)} />
   }
 
-  return <DemoExpired />
-
   // ── Admin portal route ────────────────────────────────
   if (showAdmin) {
     return (
