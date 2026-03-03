@@ -93,12 +93,11 @@ function KYCUploadZone({ label, docKey, state, onChange }) {
       }`}
       onClick={() => isIdle && inputRef.current?.click()}>
 
-      {/* Hidden file input — opens back camera on mobile */}
+      {/* Hidden file input */}
       <input
         ref={inputRef}
         type="file"
         accept="image/*"
-        capture="environment"
         className="hidden"
         onChange={e => onChange(docKey, e.target.files?.[0])}
       />
@@ -282,36 +281,42 @@ export default function Checkout({
   const allKycDone = Object.values(kyc).every(d => d.status === 'verified')
   const locPinned  = locState === 'pinned'
 
-  // ── Final fake submit ─────────────────────────────────
+  // ── Final submit ───────────────────────────────────────
   function handleFinalSubmit() {
     setSubmitting(true)
     
-    // Save to our demo local storage
-    saveBooking({
-      vehicle,
-      serviceType,
-      pricePerDay,
-      days: serviceType === 'Full Day' ? days : null,
-      hours: serviceType === 'Hourly' ? hours : null,
-      total,
-      pickupDate,
-      returnDate: serviceType === 'Full Day' ? returnDate : null,
-      pickupTime,
-      dropoffLocation: serviceType === 'Transfer' ? dropoffLoc : null,
-      itinerary,
-      location: locPinned ? 'GPS Pinned' : locState === 'jkia' ? 'JKIA Airport' : locState === 'wilson' ? 'Wilson Airport' : manualAddress,
-      kyc: {
-        id_front: kyc.id_front.base64,
-        id_back: kyc.id_back.base64,
-        licence: kyc.licence.base64
-      },
-      status: 'Pending Review',
-      client: {
-        name: clientName || 'Demo User',
-        avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100&q=80&auto=format&fit=crop',
-        phone: clientPhone || '+254 712 345 678'
-      }
-    })
+    // Save to our demo local storage — wrapped in try/catch
+    // because localStorage can throw on mobile when base64
+    // images exceed the ~5 MB quota.
+    try {
+      saveBooking({
+        vehicle,
+        serviceType,
+        pricePerDay,
+        days: serviceType === 'Full Day' ? days : null,
+        hours: serviceType === 'Hourly' ? hours : null,
+        total,
+        pickupDate,
+        returnDate: serviceType === 'Full Day' ? returnDate : null,
+        pickupTime,
+        dropoffLocation: serviceType === 'Transfer' ? dropoffLoc : null,
+        itinerary,
+        location: locPinned ? 'GPS Pinned' : locState === 'jkia' ? 'JKIA Airport' : locState === 'wilson' ? 'Wilson Airport' : manualAddress,
+        kyc: {
+          id_front: kyc.id_front.base64 ? '(uploaded)' : null,
+          id_back: kyc.id_back.base64 ? '(uploaded)' : null,
+          licence: kyc.licence.base64 ? '(uploaded)' : null
+        },
+        status: 'Pending Review',
+        client: {
+          name: clientName || 'Demo User',
+          avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100&q=80&auto=format&fit=crop',
+          phone: clientPhone || '+254 712 345 678'
+        }
+      })
+    } catch (err) {
+      console.warn('Could not save booking to localStorage (quota exceeded?)', err)
+    }
 
     setTimeout(() => {
       setSubmitting(false)
@@ -747,12 +752,13 @@ export default function Checkout({
               <div className="flex gap-3">
                 <BackBtn onClick={() => setStep(3)} />
                 <button
+                  type="button"
                   onClick={handleFinalSubmit}
                   disabled={submitting}
                   className="flex-1 flex items-center justify-center gap-2.5 font-heading font-bold text-white text-[15px]
                     py-4 rounded-xl transition-all shadow-[0_8px_28px_rgba(227,27,35,0.3)]
                     disabled:opacity-70 disabled:cursor-not-allowed"
-                  style={{ background: '#E31B23' }}>
+                  style={{ background: '#E31B23', touchAction: 'manipulation' }}>
                   {submitting
                     ? <><Icon.Spinner /> Processing…</>
                     : <>Confirm Booking — KSh {total}</>

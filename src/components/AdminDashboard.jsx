@@ -368,7 +368,7 @@ function DashboardView() {
 
             <tbody>
               {rows.map((row, i) => {
-                const av = avatarColors[row.avatar]
+                const av = avatarColors[row.avatar] || { bg: '#f3f4f6', text: '#4b5563' }
                 return (
                   <tr key={row.id}
                     className={`border-b border-gray-50 transition-colors

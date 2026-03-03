@@ -1,0 +1,26 @@
+# Implement "Demo Expired" Page
+
+This plan replaces the live site content with a professional "Demo Expired" page as a sales tactic to maintain control over assets and signal professionalism.
+
+## Proposed Changes
+
+### [Jelani Motors Core]
+
+#### [NEW] [DemoExpired.jsx](file:///c:/Users/HP/OneDrive/Documents/WEB%20DEV/01_CLIENT_WORK/Jelani_Motors/src/components/DemoExpired.jsx)
+Create a new component with a clean, centered, corporate-looking message.
+- Use [LogoSVG](file:///c:/Users/HP/OneDrive/Documents/WEB%20DEV/01_CLIENT_WORK/Jelani_Motors/src/components/ui.jsx#60-71) for branding.
+- Include "Prototype Access Expired" heading.
+- Include the descriptive text provided by the user.
+- Add a "Contact Benard on WhatsApp" button with a professional pre-filled message.
+
+#### [MODIFY] [App.jsx](file:///c:/Users/HP/OneDrive/Documents/WEB%20DEV/01_CLIENT_WORK/Jelani_Motors/src/App.jsx)
+- Import `DemoExpired` from `./components/DemoExpired`.
+- At the top of the component (or after minimal necessary setup), return `<DemoExpired />` to prevent the rest of the app from rendering.
+
+## Verification Plan
+
+### Manual Verification
+- Run `npm run dev` and navigate to the local site.
+- Verify that the "Demo Expired" page is the only thing rendered.
+- Verify that the page is centered and looks professional on both desktop and mobile.
+- Click the "Contact Benard on WhatsApp" button to verify the link and pre-filled message.

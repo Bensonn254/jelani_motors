@@ -11,6 +11,7 @@ import SplashScreen      from './components/SplashScreen'
 import WhatsAppButton    from './components/WhatsAppButton'
 import ScrollToTop       from './components/ScrollToTop'
 import ComingSoon        from './components/ComingSoon'
+import DemoExpired       from './components/DemoExpired'
 import { FallbackSpinner } from './components/ui'
 
 // ── Lazy-loaded components (Below the fold) ──────────────
@@ -68,6 +69,8 @@ export default function App() {
   if (!splashDone) {
     return <SplashScreen onComplete={() => setSplashDone(true)} />
   }
+
+  return <DemoExpired />
 
   // ── Admin portal route ────────────────────────────────
   if (showAdmin) {
